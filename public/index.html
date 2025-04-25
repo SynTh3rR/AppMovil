@@ -1,9 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html >
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRUD Usuarios Responsivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#ffa100">
+    <link rel="manifest" href="/__/firebase/init.json">
+    <link rel="apple-touch-icon" href="/__/firebase/init.json">
+    <link rel="shortcut icon" href="/__/firebase/init.json">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">   
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/11.6.1/firebase-app-compat.js"></script>
@@ -38,84 +53,122 @@
       }
     </style>
   </head>
-  <body>
-    <h1>Lista de Usuarios</h1>
-  <div id="usuarios"></div>
+  <body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">
+    <body style="background-color: #f0f0f0;">
 
-  <script>
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('usuarios');
-        data.forEach(usuario => {
-          const div = document.createElement('div');
-          div.className = 'usuario';
-          div.innerHTML = `
-            <strong>${usuario.name}</strong><br>
-            <small>${usuario.email}</small>
-          `;
-          container.appendChild(div);
-        });
-      })
-      .catch(error => console.error('Error al obtener usuarios:', error));
-  </script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+      <style>
+        #usuarios {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          margin-top: 20px;
         }
-      });
-    </script>
-    <h1>Lista de Usuarios</h1>
-  <div id="usuarios"></div>
+        .usuario {
+          background-color: white;
+          border-radius: 5px;
+          padding: 10px;
+          margin: 10px;
+          width: 200px;
+          text-align: center;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .usuario strong {
+          display: block;
+          font-size: 18px;
+          margin-bottom: 5px;
+        }
+        .usuario small {
+          color: #666;
+          font-size: 14px;
+        }
+      </style>
+  <h1 class="text-3xl md:text-4xl font-bold text-blue-600 mb-6 text-center">CRUD de Usuarios</h1>
+
+  <!-- Formulario -->
+  <form id="formularioUsuario" class="bg-white shadow-md rounded-xl p-6 w-full max-w-lg mb-8">
+    <div class="mb-4">
+      <input type="text" id="nombre" placeholder="Nombre" required
+        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+    </div>
+    <div class="mb-4">
+      <input type="email" id="email" placeholder="Email" required
+        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+    </div>
+    <button type="submit"
+      class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition text-lg">
+      Agregar Usuario
+    </button>
+  </form>
+
+  <!-- Lista de usuarios -->
+  <div id="usuarios" class="w-full max-w-lg space-y-4"></div>
 
   <script>
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('usuarios');
-        data.forEach(usuario => {
-          const div = document.createElement('div');
-          div.className = 'usuario';
-          div.innerHTML = `
-            <strong>${usuario.name}</strong><br>
-            <small>${usuario.email}</small>
-          `;
-          container.appendChild(div);
-        });
-      })
-      .catch(error => console.error('Error al obtener usuarios:', error));
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+    const contenedor = document.getElementById('usuarios');
+    const formulario = document.getElementById('formularioUsuario');
+
+    const guardarEnLocalStorage = () => {
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+    };
+
+    const renderizarUsuarios = () => {
+      contenedor.innerHTML = '';
+      usuarios.forEach((u, index) => {
+        const div = document.createElement('div');
+        div.className = 'bg-white shadow-lg rounded-xl p-4 flex flex-col md:flex-row md:justify-between md:items-center space-y-2 md:space-y-0';
+        div.innerHTML = `
+          <div class="flex-1">
+            <p class="text-lg font-semibold text-gray-800">${u.nombre}</p>
+            <p class="text-gray-600 text-sm">${u.email}</p>
+          </div>
+          <div class="flex space-x-2">
+            <button onclick="editarUsuario(${index})"
+              class="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded-lg transition">
+              Editar
+            </button>
+            <button onclick="eliminarUsuario(${index})"
+              class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+              Eliminar
+            </button>
+          </div>
+        `;
+        contenedor.appendChild(div);
+      });
+    };
+
+    formulario.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      if (nombre && email) {
+        usuarios.push({ nombre, email });
+        guardarEnLocalStorage();
+        renderizarUsuarios();
+        formulario.reset();
+      }
+    });
+
+    window.eliminarUsuario = (index) => {
+      if (confirm('¿Seguro que quieres eliminar este usuario?')) {
+        usuarios.splice(index, 1);
+        guardarEnLocalStorage();
+        renderizarUsuarios();
+      }
+    };
+
+    window.editarUsuario = (index) => {
+      const nuevoNombre = prompt('Nuevo nombre:', usuarios[index].nombre);
+      const nuevoEmail = prompt('Nuevo email:', usuarios[index].email);
+      if (nuevoNombre && nuevoEmail) {
+        usuarios[index] = { nombre: nuevoNombre, email: nuevoEmail };
+        guardarEnLocalStorage();
+        renderizarUsuarios();
+      }
+    };
+
+    renderizarUsuarios();
   </script>
   </body>
 </html>
