@@ -52,7 +52,7 @@
       "source": "functions",
       "codebase": "default",
       "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint"
+        "npm --prefix functions run build"
       ],
       "ignore": [
         "node_modules",

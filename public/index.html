@@ -39,14 +39,26 @@
     </style>
   </head>
   <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <h1>Lista de Usuarios</h1>
+  <div id="usuarios"></div>
 
+  <script>
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('usuarios');
+        data.forEach(usuario => {
+          const div = document.createElement('div');
+          div.className = 'usuario';
+          div.innerHTML = `
+            <strong>${usuario.name}</strong><br>
+            <small>${usuario.email}</small>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(error => console.error('Error al obtener usuarios:', error));
+  </script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const loadEl = document.querySelector('#load');
@@ -85,5 +97,25 @@
         }
       });
     </script>
+    <h1>Lista de Usuarios</h1>
+  <div id="usuarios"></div>
+
+  <script>
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('usuarios');
+        data.forEach(usuario => {
+          const div = document.createElement('div');
+          div.className = 'usuario';
+          div.innerHTML = `
+            <strong>${usuario.name}</strong><br>
+            <small>${usuario.email}</small>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(error => console.error('Error al obtener usuarios:', error));
+  </script>
   </body>
 </html>
